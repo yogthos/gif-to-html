@@ -48,6 +48,6 @@
                   [:pre
                    {:id (str "frame-" i)
                     :style "font-size:6pt; letter-spacing:1px; line-height:6pt; font-weight:bold; display: none;font-family:monospace;"}
-                   (to-ascii (scale-image (.read ^ImageReader rdr i) w h))])
+                   (to-ascii (scale-image (.read rdr i) w h))])
                (range frame-count))])
        :frames frame-count})))
