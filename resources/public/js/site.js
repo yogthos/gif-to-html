@@ -11,15 +11,22 @@ function render (response) {
   clearTimeout(animation);
   $("#output").html(response.data);
   $(".loader").hide();
+  $("#share").show();
   animation = showNextFrame(response.frames - 1, 0);
 }
 
 function convertImageUrl() {
   $("#output").empty();
   $(".loader").show();
+  $("#share").hide();
   $.post(context + "/convertImage", {url: $('#url').val()}, render);
+}
+
+function shareLink() {
+  window.prompt("Share the link: ", "http://gif-to-html.herokuapp.com/?" + $('#url').val());
 }
 
 $(function() {
   $("#upload").click(convertImageUrl);
+  $("#share").click(shareLink);
 });

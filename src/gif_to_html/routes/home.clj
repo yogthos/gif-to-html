@@ -6,13 +6,13 @@
             [gif-to-html.convert :refer [gif->html]]
             [noir.response :as response]))
 
-(defn home-page []
+(defn home-page [url]
   (layout/render
-    "home.html" {:content (util/md->html "/md/docs.md")}))
+    "home.html" {:url (or url "http://i.stack.imgur.com/e8nZC.gif")}))
 
 (defn convert-url [url]
   (response/json (gif->html (:body (client/get url {:as :stream})))))
 
 (defroutes home-routes
-  (GET "/" [] (home-page))
+  (GET "/" req (home-page (:query-string req)))
   (POST "/convertImage" [url] (convert-url url)))

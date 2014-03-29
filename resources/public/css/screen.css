@@ -58,4 +58,8 @@ body {
   }
 }
 
+#share {
+  display: none;
+}
+
 iframe{border:none;margin:0;margin-top:15px;}
