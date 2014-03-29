@@ -13,7 +13,6 @@ function render (response) {
   t = 0;
   frame = 0;
   totalFrames = response.frames - 1;
-  console.log(response);
   $("#output").html(response.data);
   $(".loader").hide();
   showNextFrame();
