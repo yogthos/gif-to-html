@@ -7,7 +7,8 @@
             [taoensso.timbre :as timbre]
             [taoensso.timbre.appenders.rotor :as rotor]
             [selmer.parser :as parser]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [ring.middleware.gzip :refer [wrap-gzip]]))
 
 (defroutes app-routes
   (route/resources "/")
@@ -46,7 +47,7 @@
            ;; add your application routes here
            [home-routes app-routes]
            ;; add custom middleware here
-           :middleware [middleware/template-error-page]
+           :middleware [middleware/template-error-page wrap-gzip]
            ;; add access rules here
            :access-rules []
            ;; serialize/deserialize the following data formats

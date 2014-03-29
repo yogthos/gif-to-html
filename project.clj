@@ -11,7 +11,8 @@
                  [markdown-clj "0.9.41"]
                  [environ "0.4.0"]
                  [clj-http "0.9.1"]
-                 [net.mikera/imagez "0.3.1"]]
+                 [net.mikera/imagez "0.3.1"]
+                 [bk/ring-gzip "0.1.1"]]
 
   :repl-options {:init-ns gif-to-html.repl}
   :plugins [[lein-ring "0.8.10"]
