@@ -3,8 +3,8 @@ var frame;
 var t;
 
 function showNextFrame() {
-  document.getElementById('frame-' + ((frame > 0) ? frame - 1 : totalFrames)).style.display = 'none';
-  document.getElementById('frame-' + frame).style.display = 'block';
+  $('#frame-' + ((frame > 0) ? frame - 1 : totalFrames)).hide();
+  $('#frame-' + frame).show();
   frame = (frame < totalFrames) ? frame + 1 : 0;
   t = setTimeout(showNextFrame, 150);
 }

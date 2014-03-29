@@ -11,7 +11,6 @@
     "home.html" {:content (util/md->html "/md/docs.md")}))
 
 (defn convert-url [url]
-  #_(response/json {:frames 10 :body (class (:body (client/get url)))})
   (response/json (gif->html (:body (client/get url {:as :stream})))))
 
 (defroutes home-routes
