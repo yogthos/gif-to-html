@@ -1,0 +1,19 @@
+{% extends "gif_to_html/views/templates/base.html" %}
+{% block content %}
+  <div class="row-fluid">
+    <div class="span8">
+        <h4>ender a URL for a GIF to be converted to ASCII</h4>
+        <input type="text"
+               id="url"
+               value="http://i.stack.imgur.com/e8nZC.gif"/>
+
+        <button id="upload">convert</button>
+        <br/>
+        <div class="loader">Loading</div>
+
+        <div id="output">
+          {{ascii-image|safe}}
+        </div>
+    </div>
+  </div>
+{% endblock %}
