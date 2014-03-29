@@ -29,11 +29,7 @@
       (dotimes [x width]
         (.append sb (ascii-color img y x)))
       (.append sb "\n"))
-    (.toString sb)
-    #_(apply concat
-           (for [y (range height)]
-      (conj (mapv (partial ascii-color img y) (range width)) [:br])))))
-
+    (.toString sb)))
 
 (defn scale [x y]
   [100 (int (* (/ 100 x) y))])
