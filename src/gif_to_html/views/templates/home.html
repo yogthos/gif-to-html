@@ -1,14 +1,17 @@
-{% extends "gif_to_html/views/templates/base.html" %}
+{% extends "gif_to_html_app/views/templates/base.html" %}
 {% block content %}
   <div class="row-fluid">
     <div class="span8">
         <h4>ender a URL for a GIF to be converted to ASCII</h4>
-        <input type="text"
+    <div class="input-group">
+      <input type="text"
                id="url"
+               class="form-control"
                value="http://i.stack.imgur.com/e8nZC.gif"/>
-
-        <button id="upload">convert</button>
-        <br/>
+      <span class="input-group-btn">
+        <button class="btn btn-default" id="upload" type="button">Go!</button>
+      </span>
+    </div><!-- /input-group -->
         <div class="loader">Loading</div>
 
         <div id="output">
