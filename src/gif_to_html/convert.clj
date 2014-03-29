@@ -31,8 +31,8 @@
       (.append sb "\n"))
     (.toString sb)))
 
-(defn scale [x y]
-  [100 (int (* (/ 100 x) y))])
+(defn scale [a b]
+  (int (* (/ 100 a) b)))
 
 (defn gif->html [input]
   (let [rdr  (.next (ImageIO/getImageReadersByFormatName "gif"))
@@ -41,7 +41,7 @@
     (let [frame-count (.getNumImages rdr true)
           w           (.getWidth rdr 0)
           h           (.getHeight rdr 0)
-          [w h]       (if (> w h) (scale w h) (scale h w))]
+          [w h]       (if (> w h) [100 (scale w h)] [(scale h w) 100])]
       {:data
        (html5
          [:div.animation
