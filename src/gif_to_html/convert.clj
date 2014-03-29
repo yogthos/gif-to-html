@@ -1,6 +1,5 @@
 (ns gif-to-html.convert
-  (:require [hiccup.core :refer [html]]
-            [hiccup.page :refer [html5]]
+  (:require [hiccup.page :refer [html5]]
             [mikera.image.core :refer [scale-image]])
   (:import [javax.imageio ImageReader ImageIO]
            [java.awt.image BufferedImage]
