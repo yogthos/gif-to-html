@@ -29,4 +29,5 @@ function shareLink() {
 $(function() {
   $("#upload").click(convertImageUrl);
   $("#share").click(shareLink);
+  if (autorun) convertImageUrl();
 });

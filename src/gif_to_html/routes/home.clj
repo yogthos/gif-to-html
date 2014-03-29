@@ -8,7 +8,8 @@
 
 (defn home-page [url]
   (layout/render
-    "home.html" {:url (or url "http://i.stack.imgur.com/e8nZC.gif")}))
+    "home.html" {:url (or url "http://i.stack.imgur.com/e8nZC.gif")
+                 :autorun (some? url)}))
 
 (defn convert-url [url]
   (response/json (gif->html (:body (client/get url {:as :stream})))))
