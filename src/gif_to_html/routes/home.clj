@@ -12,7 +12,10 @@
                  :autorun (some? url)}))
 
 (defn convert-url [url]
-  (response/json (gif->html (:body (client/get url {:as :stream})))))
+  (response/json
+   (try
+     (gif->html (:body (client/get url {:as :stream})))
+     (catch Exception _ {:error "The server was displeased with your offering (╯°□°)╯︵ ┻━┻"}))))
 
 (defroutes home-routes
   (GET "/" req (home-page (:query-string req)))

@@ -4,19 +4,25 @@ var animation;
 function showNextFrame(totalFrames, frame) {
   $('#frame-' + ((frame > 0) ? frame - 1 : totalFrames)).hide();
   $('#frame-' + frame).show();
-  animation = setTimeout(function(){showNextFrame(totalFrames, (frame < totalFrames) ? frame + 1 : 0);}, 150);
+  animation = setTimeout(function(){showNextFrame(totalFrames, (frame < totalFrames) ? frame + 1 : 0);}, 100);
 }
 
 function render (response) {
   clearTimeout(animation);
-  $("#output").html(response.data);
   $(".loader").hide();
-  $("#share").show();
-  animation = showNextFrame(response.frames - 1, 0);
+  if (response.error) {
+    $("#error").html(response.error);
+  }
+  else {
+    $("#output").html(response.data);
+    $("#share").show();
+    animation = showNextFrame(response.frames - 1, 0);
+  }
 }
 
 function convertImageUrl() {
   $("#output").empty();
+  $("#error").empty();
   $(".loader").show();
   $("#share").hide();
   $.post(context + "/convertImage", {url: $('#url').val()}, render);
