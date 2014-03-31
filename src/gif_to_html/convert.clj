@@ -8,13 +8,12 @@
 (def ascii [\# \@ \O \% \$ \i \o \c \* \; \: \+ \! \^ \' \- \. \space])
 (def max-items (dec (count ascii)))
 
-(defn colors [^BufferedImage img ^Integer x ^Integer y]
-  (let [c (Color. (.getRGB img x y))]
-    [(.getRed c) (.getGreen c) (.getBlue c)]))
-
 (defn ascii-color [^BufferedImage img ^Integer y ^Integer x]
-  (let [[r g b :as rgb] (colors img x y)
-        max-color (apply max rgb)
+  (let [pixel (.getRGB img x y)        
+        r (bit-and (bit-shift-right pixel 16) 0x000000FF)
+        g (bit-and (bit-shift-right pixel 8) 0x000000FF)
+        b (bit-and pixel 0x000000FF)
+        max-color (max r g b)
         idx (if (zero? max-color) max-items (int (* max-items (/ max-color 255))))]
     (nth ascii (max idx 0))))
 
