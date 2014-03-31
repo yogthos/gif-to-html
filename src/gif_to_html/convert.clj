@@ -17,10 +17,10 @@
         idx (if (zero? max-color) max-items (int (* max-items (/ max-color 255))))]
     (nth ascii (max idx 0))))
 
-(defn to-ascii [^BufferedImage img]
+(defn to-ascii [^BufferedImage img ^Integer size]
   (let [width  (.getWidth img)
         height (.getHeight img)
-        sb     (StringBuilder.)]
+        sb     (StringBuilder. size)]
     (dotimes [y height]
       (dotimes [x width]
         (.append sb (ascii-color img y x)))
@@ -44,7 +44,7 @@
     (catch Exception _ 0)))
 
 (defn gif->html [input]
-  (let [rdr  ^ ImageReader (.next (ImageIO/getImageReadersByFormatName "gif"))
+  (let [rdr  ^ImageReader (.next (ImageIO/getImageReadersByFormatName "gif"))
         ciis (ImageIO/createImageInputStream input)]
     (.setInput rdr ciis false)    
     (let [frame-count (.getNumImages rdr true)
@@ -62,7 +62,7 @@
                   [:pre
                    {:id (str "frame-" i)
                     :style "font-size:5pt;line-height:5pt;letter-spacing:1px;font-weight:bold;display:none;font-family:monospace;"}
-                   (to-ascii (scale-image (.read ^ImageReader rdr i) w h))])
+                   (to-ascii (scale-image (.read ^ImageReader rdr i) w h) (+ h (* h w)))])
                (range frame-count))])
        :delay  (if (pos? frame-delay) frame-delay 10)
        :frames frame-count})))
