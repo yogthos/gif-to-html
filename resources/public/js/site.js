@@ -3,7 +3,7 @@ var animation;
 
 function showNextFrame(totalFrames, frame, delay) {
   $('#frame-' + ((frame > 0) ? frame - 1 : totalFrames)).hide();
-  $('#frame-' + frame).show();  
+  $('#frame-' + frame).show();
   animation = setTimeout(function(){showNextFrame(totalFrames, (frame < totalFrames) ? frame + 1 : 0, delay);}, delay);
 }
 
@@ -15,8 +15,8 @@ function render (response) {
   }
   else {
     $("#output").html(response.data);
-    $("#share").show();    
-    animation = showNextFrame(response.frames - 1, 0, response.delay*10);
+    $("#share").show();
+    animation = showNextFrame(response.frames - 1, 0, response.delay);
   }
 }
 

@@ -9,11 +9,11 @@
 (def max-items (dec (count ascii)))
 
 (defn ascii-color [^BufferedImage img ^Integer y ^Integer x]
-  (let [pixel (.getRGB img x y)        
+  (let [pixel (.getRGB img x y)
         r (bit-and (bit-shift-right pixel 16) 0x000000FF)
         g (bit-and (bit-shift-right pixel 8) 0x000000FF)
         b (bit-and pixel 0x000000FF)
-        max-color (int (Math/sqrt (+ (* r r 0.241) (* g g 0.691) (* b b 0.068))))
+        max-color (Math/sqrt (+ (* r r 0.241) (* g g 0.691) (* b b 0.068)))
         idx (if (zero? max-color) max-items (int (* max-items (/ max-color 255))))]
     (nth ascii (max idx 0))))
 
@@ -30,7 +30,7 @@
 (defn scale [a b]
   (int (* (/ 100 a) b)))
 
-(defn delay [rdr]
+(defn find-delay [rdr]
   (try
     (let [image-meta  (.getImageMetadata rdr 0)
           format-name (.getNativeMetadataFormatName image-meta)
@@ -46,9 +46,9 @@
 (defn gif->html [input]
   (let [rdr  ^ImageReader (.next (ImageIO/getImageReadersByFormatName "gif"))
         ciis (ImageIO/createImageInputStream input)]
-    (.setInput rdr ciis false)    
+    (.setInput rdr ciis false)
     (let [frame-count (.getNumImages rdr true)
-          frame-delay (delay rdr)
+          frame-delay (find-delay rdr)
           w           (.getWidth rdr 0)
           h           (.getHeight rdr 0)
           [w h]       (cond
@@ -64,5 +64,5 @@
                     :style "font-size:5pt;line-height:5pt;letter-spacing:1px;font-weight:bold;display:none;font-family:monospace;"}
                    (to-ascii (scale-image (.read ^ImageReader rdr i) w h) (+ h (* h w)))])
                (range frame-count))])
-       :delay  (if (pos? frame-delay) frame-delay 10)
+       :delay  (* 10 (if (pos? frame-delay) frame-delay 10))
        :frames frame-count})))
