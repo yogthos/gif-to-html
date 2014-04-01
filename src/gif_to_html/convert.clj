@@ -25,7 +25,7 @@
     (.toString sb)))
 
 (defn scale [a b]
-  (int (* (/ 100 a) b)))
+  (int (* (/ 150 a) b)))
 
 (defn find-delay [rdr]
   (try
@@ -50,15 +50,15 @@
           h           (.getHeight rdr 0)
           [w h]       (cond
                        (and (< w 150) (< h 150)) [w h]
-                       (> w h) [100 (scale w h)]
-                       :else [(scale h w) 100])]
+                       (> w h) [150 (scale w h)]
+                       :else [(scale h w) 150])]
       {:data
        (html5
          [:div.animation
           (map (fn [i]
                   [:pre
                    {:id (str "frame-" i)
-                    :style "font-size:5pt;line-height:5pt;letter-spacing:1px;font-weight:bold;display:none;font-family:monospace;"}
+                    :style "font-size:4pt;line-height:4pt;letter-spacing:1px;font-weight:bold;display:none;font-family:monospace;"}
                    (to-ascii (scale-image (.read ^ImageReader rdr i) w h) w h)])
                (range frame-count))])
        :delay  (* 10 (if (pos? frame-delay) frame-delay 10))
