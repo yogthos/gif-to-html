@@ -8,23 +8,20 @@
 (def ascii [\# \@ \O \% \$ \i \o \c \* \; \: \+ \! \^ \' \- \. \space])
 (def max-items (dec (count ascii)))
 
-(defn ascii-color [^BufferedImage img ^Integer y ^Integer x]
-  (let [pixel (.getRGB img x y)
-        r (bit-and (bit-shift-right pixel 16) 0x000000FF)
+(defn pixel->ascii [^Integer pixel]
+  (let [r (bit-and (bit-shift-right pixel 16) 0x000000FF)
         g (bit-and (bit-shift-right pixel 8) 0x000000FF)
         b (bit-and pixel 0x000000FF)
         max-color (Math/sqrt (+ (* r r 0.241) (* g g 0.691) (* b b 0.068)))
         idx (if (zero? max-color) max-items (int (* max-items (/ max-color 255))))]
     (nth ascii (max idx 0))))
 
-(defn to-ascii [^BufferedImage img ^Integer size]
-  (let [width  (.getWidth img)
-        height (.getHeight img)
-        sb     (StringBuilder. size)]
-    (dotimes [y height]
-      (dotimes [x width]
-        (.append sb (ascii-color img y x)))
-      (.append sb \newline))
+(defn to-ascii [^BufferedImage img ^Integer w ^Integer h]
+  (let [^ints pixels (.. img getRaster getDataBuffer getData)
+        sb (StringBuilder. (int (+ h (* h w))))]
+    (dotimes [i (count pixels)]
+      (.append sb (pixel->ascii (aget pixels i)))
+      (when (zero? (mod i w)) (.append sb \newline)))
     (.toString sb)))
 
 (defn scale [a b]
@@ -62,7 +59,7 @@
                   [:pre
                    {:id (str "frame-" i)
                     :style "font-size:5pt;line-height:5pt;letter-spacing:1px;font-weight:bold;display:none;font-family:monospace;"}
-                   (to-ascii (scale-image (.read ^ImageReader rdr i) w h) (+ h (* h w)))])
+                   (to-ascii (scale-image (.read ^ImageReader rdr i) w h) w h)])
                (range frame-count))])
        :delay  (* 10 (if (pos? frame-delay) frame-delay 10))
        :frames frame-count})))
