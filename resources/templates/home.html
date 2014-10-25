@@ -30,8 +30,28 @@
 </div>
 
 <div class="container">
-    {% block content %}
-    {% endblock %}
+    <div class="row-fluid">
+        <div class="span8">
+            <h4>enter a URL for a GIF to be converted to ASCII</h4>
+
+            <div class="input-group">
+                <input type="text"
+                       id="url"
+                       class="form-control"
+                       value="{{url}}"/>
+                <span class="input-group-btn">
+                  <button class="btn btn-default" id="upload" type="button">Go!</button>
+                </span>
+            </div>
+            <div><h2 id="error"></h2></div>
+            <div class="loader">Loading</div>
+
+            <div id="output">
+                {{ascii-image|safe}}
+            </div>
+            <button class="btn btn-default" id="share" type="button">Share</button>
+        </div>
+    </div>
 </div>
 
 
@@ -50,4 +70,3 @@
 </script>
 </body>
 </html>
-
