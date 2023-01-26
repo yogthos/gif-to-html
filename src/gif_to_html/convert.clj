@@ -1,9 +1,7 @@
 (ns gif-to-html.convert
-  (:require [hiccup.page :refer [html5]]
-            [mikera.image.core :refer [scale-image]])
+  (:require [mikera.image.core :refer [scale-image]])
   (:import [javax.imageio ImageReader ImageIO]
-           [java.awt.image BufferedImage]
-           java.awt.Color))
+           [java.awt.image BufferedImage]))
 
 (def ascii [\# \@ \O \% \$ \i \o \c \* \; \: \+ \! \^ \' \- \. \space])
 (def max-items (dec (count ascii)))
@@ -52,14 +50,12 @@
                        (and (< w 150) (< h 150)) [w h]
                        (> w h) [150 (scale w h)]
                        :else [(scale h w) 150])]
-      {:data
-       (html5
-         [:div.animation
-          (map (fn [i]
-                  [:pre
-                   {:id (str "frame-" i)
-                    :style "font-size:4pt;line-height:4pt;letter-spacing:1px;font-weight:bold;display:none;font-family:monospace;"}
-                   (to-ascii (scale-image (.read ^ImageReader rdr i) w h) w h)])
-               (range frame-count))])
+      {:frames
+       (map (fn [i]
+              [:pre
+               {:id (str "frame-" i)
+                :style "font-size:4pt;line-height:4pt;letter-spacing:1px;font-weight:bold;display:none;font-family:monospace;"}
+               (to-ascii (scale-image (.read ^ImageReader rdr i) w h) w h)])
+            (range frame-count))
        :delay  (* 10 (if (pos? frame-delay) frame-delay 10))
-       :frames frame-count})))
+       :frame-count frame-count})))
