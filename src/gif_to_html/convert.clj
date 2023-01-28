@@ -51,11 +51,6 @@
                        (> w h) [150 (scale w h)]
                        :else [(scale h w) 150])]
       {:frames
-       (map (fn [i]
-              [:pre
-               {:id (str "frame-" i)
-                :style "font-size:4pt;line-height:4pt;letter-spacing:1px;font-weight:bold;display:none;font-family:monospace;"}
-               (to-ascii (scale-image (.read ^ImageReader rdr i) w h) w h)])
-            (range frame-count))
+       (map (fn [i] (to-ascii (scale-image (.read ^ImageReader rdr i) w h) w h)) (range frame-count))
        :delay  (* 10 (if (pos? frame-delay) frame-delay 10))
        :frame-count frame-count})))

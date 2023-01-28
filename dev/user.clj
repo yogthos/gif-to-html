@@ -23,7 +23,14 @@
   (defn gif-animation [{:keys [frames frame-count delay]}]
     [:html 
      [:body
-      (into [:div] frames)
+      [:div
+       (map-indexed 
+        (fn [i frame]
+          [:pre
+           {:id    (str "frame-" i)
+            :style "font-size:4pt;line-height:4pt;letter-spacing:1px;font-weight:bold;display:none;font-family:monospace;"}
+           frame])
+        frames)]
       [:script {:type "text/javascript"}
        "var delay = " delay ";"]
       [:script {:type "text/javascript"}
@@ -88,6 +95,9 @@
   (run-jetty))
 
 (comment 
+  
+  (stop-server)
+  
   (do
     (stop-server)
     (start-server)))
